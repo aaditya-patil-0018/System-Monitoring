@@ -29,7 +29,7 @@ class SysMonitoring():
     # Getting the stats of memory and turning it into the dictionary
     def memory(self):
         mem = psutil.virtual_memory()
-        '''memory_val_dict = {
+        memory_val_dict = {
                 'total':mem[0],
                 'available':mem[1],
                 'percent':mem[2],
@@ -41,14 +41,15 @@ class SysMonitoring():
                 'cached':mem[8],
                 'shared':mem[9],
                 'slab':mem[10],
-                }'''
+                }
+        '''
         memory_val_dict = {
                 'total':mem[0],
                 'available':mem[1],
                 'percent':mem[2],
                 'used':mem[3],
                 'free':mem[4],
-                }
+                }'''
         print('MEMORY PERCENT : ', memory_val_dict['percent'])
         print('-'*30)
         return memory_val_dict
@@ -76,6 +77,8 @@ class SysMonitoring():
             return False
         else:
             return True
+
+# This is the function which we used in process 2 file directly so that we can get the traceback of that file
 
 '''
     # Function for running

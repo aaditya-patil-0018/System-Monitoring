@@ -3,33 +3,33 @@ import traceback
 import time, os, sys
 from process_1 import SysMonitoring
 
+# This function is not needed for now; as we are running this file directly
 def pid_write():
-    # For storing the pid of the file running
     pid_file = open('pid.txt', 'w')
-    # Getting the pid
     pid = os.getpid()
-    # Writing the pid
     pid_file.write(str(pid))
-    # Closing the file
     pid_file.close()
     return pid
 
+# This function is for receiving the signal and Tracebacking the problem
 def sigusr1_handler():
     print("Received SIGUSR1 ")
-    #traceback.print_stack()
-    print(repr(traceback.extract_stack()))
-    print(repr(traceback.format_stack()))
+    #traceback.print_stack()   # This method was not working so it's commented
+    tb = open('traceback.txt', 'w')
+    tb.write(f'{repr(traceback.extract_stack())}\n')
+    tb.write(f'{repr(traceback.format_stack())}')
+    tb.close()
+    print('Traceback has been written in the traceback.txt file!!')
     #exit()
 
+# This is for registering the signal
 def register_signal():
     return signal.signal(signal.SIGUSR1, sigusr1_handler)
 
-def loop():
-    while True:
-        time.sleep(2)
-
-def monitoring():
-    pid = os.getpid()
+# This function is for Monitoring System
+# We use the methods from process 1 file here
+# This is more like the running function which we was used in process 1 first
+def monitoring(pid):
     systm = SysMonitoring(pid)
     run = True
     while run:
@@ -47,9 +47,13 @@ def monitoring():
         return True
 
 if __name__ == '__main__':
-    #print(pid_write())
-    #loop()
-    stats = monitoring()
+    # Getting the pid of this program
+    pid = os.getpid()
+    # Calling the monitoring process
+    stats = monitoring(pid)
+    # While loop for keep running the process until every stats of system is well
     while stats:
         print('This program is running')
-        time.sleep(1)
+        time.sleep(2)
+        # Keeping check of system
+        stats = monitoring(pid)

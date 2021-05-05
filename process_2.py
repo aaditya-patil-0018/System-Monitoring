@@ -16,10 +16,10 @@ def pid_write():
 
 def sigusr1_handler():
     print("Received SIGUSR1 ")
-    traceback.print_stack()
+    #traceback.print_stack()
     print(repr(traceback.extract_stack()))
     print(repr(traceback.format_stack()))
-    exit()
+    #exit()
 
 def register_signal():
     return signal.signal(signal.SIGUSR1, sigusr1_handler)
@@ -34,6 +34,17 @@ if __name__ == '__main__':
     #loop()
     pid = os.getpid()
     systm = SysMonitoring(pid)
-    systm.running()
-    #systm.tracking_memory()
-    #systm.tracking_cpu_stats()
+    run = True
+    while run:
+        print('Hello')
+        stats = systm.cpu_stats()
+        mem = systm.memory()
+        check_cpu_1 = systm.tracking_cpu_stats(stats[0])
+        check_cpu_2 = systm.tracking_cpu_stats(stats[1])
+        check_memory = systm.tracking_memory(mem)
+        if check_cpu_1 == False or check_cpu_2 == False or check_memory == False:
+            #os.kill(self.pid, signal.SIGUSR1)
+            register_signal()
+            sigusr1_handler()
+            run = False
+        time.sleep(1)

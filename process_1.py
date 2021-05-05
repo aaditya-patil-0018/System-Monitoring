@@ -60,7 +60,7 @@ class SysMonitoring():
         elif int(stats) > 70:
             print('CPU Usage has touched the Threshold!')
             print('Program will restart the Flask Application ')
-            self.sending_signal()
+            #self.sending_signal()
             return False
         else:
             return True
@@ -72,11 +72,12 @@ class SysMonitoring():
         elif int(mem['percent']) > 70:
             print('Memory usage has touched the Threshold!')
             print('Program will restart the Flask Application')
-            self.sending_signal()
+            #self.sending_signal()
             return False
         else:
             return True
 
+'''
     # Function for running
     def running(self):
         run = True
@@ -100,4 +101,5 @@ if __name__ == '__main__':
         except:
             print('Pid is not proper!')
             quit()
-        sm.running()
+        #sm.running()
+'''

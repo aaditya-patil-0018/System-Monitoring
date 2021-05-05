@@ -28,15 +28,11 @@ def loop():
     while True:
         time.sleep(2)
 
-
-if __name__ == '__main__':
-    #print(pid_write())
-    #loop()
+def monitoring():
     pid = os.getpid()
     systm = SysMonitoring(pid)
     run = True
     while run:
-        print('Hello')
         stats = systm.cpu_stats()
         mem = systm.memory()
         check_cpu_1 = systm.tracking_cpu_stats(stats[0])
@@ -47,4 +43,13 @@ if __name__ == '__main__':
             register_signal()
             sigusr1_handler()
             run = False
+            return False
+        return True
+
+if __name__ == '__main__':
+    #print(pid_write())
+    #loop()
+    stats = monitoring()
+    while stats:
+        print('This program is running')
         time.sleep(1)
